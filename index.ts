@@ -2,6 +2,12 @@ import "dotenv/config";
 
 import { Client, Intents } from "discord.js";
 
+["uncaughtException", "unhandledRejection"].forEach(event =>
+	process.on(event, e => {
+		console.error(e);
+	})
+);
+
 const client = new Client({
 	intents: Object.values(Intents.FLAGS),
 	allowedMentions: {
@@ -11,6 +17,7 @@ const client = new Client({
 });
 
 client.on("ready", client => {
+	console.log(`${client.user.tag} has logged in!`);
 	client.user.setActivity("saiki help");
 });
 

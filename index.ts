@@ -83,12 +83,20 @@ const commands = toCommandCollection([
 	}
 ]);
 
-client.on("messageCreate", message => {
+client.on("messageCreate", async message => {
+	if (message.content.match(/\bjust\s+do\s+it\b/i)?.length) {
+		await message.reply("Nike, baby!");
+		return;
+	} else if (message.content.match(/\bnike\b/i)?.length) {
+		await message.reply("Just do it" + (Math.random() > 0.5 ? "." : "!"));
+		return;
+	}
+
 	if (!message.content.startsWith("saiki")) return;
 
 	const [cmd, ...args] = message.content.substring(5).trim().split(/\s+/g);
 
-	commands.get(cmd)?.run(message, args);
+	await commands.get(cmd)?.run(message, args);
 });
 
 client.login(process.env.TOKEN);

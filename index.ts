@@ -86,14 +86,6 @@ const commands = toCommandCollection([
 client.on("messageCreate", async message => {
 	if (message.author.bot) return;
 
-	if (message.content.match(/\bjust\s+do\s+it\b/i)?.length) {
-		await message.reply("Nike, baby!");
-		return;
-	} else if (message.content.match(/\bnike\b/i)?.length) {
-		await message.reply("Just do it" + (Math.random() > 0.5 ? "." : "!"));
-		return;
-	}
-
 	if (!message.content.startsWith("saiki")) return;
 
 	const [cmd, ...args] = message.content.substring(5).trim().split(/\s+/g);

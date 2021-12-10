@@ -84,6 +84,8 @@ const commands = toCommandCollection([
 ]);
 
 client.on("messageCreate", async message => {
+	if (message.author.bot) return;
+
 	if (message.content.match(/\bjust\s+do\s+it\b/i)?.length) {
 		await message.reply("Nike, baby!");
 		return;

@@ -7,7 +7,7 @@
 	"license": "MIT",
 	"type": "module",
 	"scripts": {
-		"build": "node --es-module-specifier-resolution=node build/index.js",
+		"build": "tsc",
 		"start": "node --es-module-specifier-resolution=node build/index.js",
 		"dev": "tsc && node --es-module-specifier-resolution=node build/index.js"
 	},

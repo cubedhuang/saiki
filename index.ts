@@ -92,6 +92,37 @@ const commands = toCommandCollection([
 				.setColor("#11bd18");
 			await message.reply({ embeds: [embed] });
 		}
+	},
+	{
+		name: "can",
+		aliases: [
+			"who",
+			"what",
+			"when",
+			"where",
+			"may",
+			"does",
+			"am",
+			"is",
+			"are"
+		],
+		replies: [
+			"*ignores you\\*",
+			"You know that.",
+			"Really, I don't care about your problems.",
+			"It's really obvious, but you don't know it."
+		]
+	},
+	{
+		name: "why",
+		aliases: ["how"],
+		replies: [
+			"*walks past you\\*",
+			"You know that.",
+			"Really, I don't care about your problems.",
+			"Go complain to the author.",
+			"It's really obvious, but you don't know it."
+		]
 	}
 ]);
 

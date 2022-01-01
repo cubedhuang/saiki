@@ -1,6 +1,8 @@
 import "dotenv/config";
 
-import { Client, Collection, Intents, Message } from "discord.js";
+import { Client, Collection, Intents, Message, MessageEmbed } from "discord.js";
+
+import coffeeJellyReplies from "./coffeeJellyReplies.json";
 
 {
 	const { log, warn, error } = console;
@@ -32,12 +34,21 @@ client.on("ready", client => {
 	client.user.setActivity("saiki help");
 });
 
-interface Command {
+interface BaseCommand {
 	name: string;
 	aliases?: string[];
-	run(this: this, message: Message, args: string[]): unknown;
-	[key: string]: unknown;
 }
+
+interface RepliesCommand extends BaseCommand {
+	replies: string[];
+}
+
+interface RunCommand extends BaseCommand {
+	replies?: string[];
+	run(this: this, message: Message, args: string[]): unknown;
+}
+
+type Command = RepliesCommand | RunCommand;
 
 function toCommandCollection(commands: Command[]) {
 	const cmds = new Collection<string, Command>();
@@ -53,32 +64,33 @@ function toCommandCollection(commands: Command[]) {
 const commands = toCommandCollection([
 	{
 		name: "help",
-		async run(message) {
-			const replies = [
-				"Yare yare.",
-				"Good grief.",
-				"What a pain.",
-				"やれやれ。"
-			];
-			await message.reply(
-				replies[Math.floor(Math.random() * replies.length)]
-			);
-		}
+		aliases: ["please", "plz", "pls"],
+		replies: ["Yare yare.", "Good grief.", "What a pain.", "やれやれ。"]
 	},
 	{
 		name: "kusuo",
 		aliases: ["k"],
+		replies: [
+			"Ordinary people sure are a pain.",
+			"There's no such thing as a person without thoughts.",
+			"No matter how big an accident is, it's triggered by a minor thing, so a minor change can avoid it entirely.",
+			"I'm never using my annoyed face ever again.",
+			"I am the world's unhappiest man who has had everything snatched away since the moment of my birth."
+		]
+	},
+	{
+		name: "coffee",
+		aliases: ["jelly"],
+		replies: coffeeJellyReplies,
 		async run(message) {
-			const replies = [
-				"Ordinary people sure are a pain.",
-				"There’s no such thing as a person without thoughts.",
-				"No matter how big an accident is, it’s triggered by a minor thing, so a minor change can avoid it entirely.",
-				"I’m never using my annoyed face ever again.",
-				"I am the world’s unhappiest man who has had everything snatched away since the moment of my birth."
-			];
-			await message.reply(
-				replies[Math.floor(Math.random() * replies.length)]
-			);
+			const embed = new MessageEmbed()
+				.setImage(
+					this.replies![
+						Math.floor(Math.random() * this.replies!.length)
+					]
+				)
+				.setColor("#11bd18");
+			await message.reply({ embeds: [embed] });
 		}
 	}
 ]);
@@ -86,11 +98,21 @@ const commands = toCommandCollection([
 client.on("messageCreate", async message => {
 	if (message.author.bot) return;
 
-	if (!message.content.startsWith("saiki")) return;
+	if (!/^saiki\s/i.test(message.content)) return;
 
 	const [cmd, ...args] = message.content.substring(5).trim().split(/\s+/g);
 
-	await commands.get(cmd)?.run(message, args);
+	const command = commands.get(cmd);
+
+	if (!command) return;
+
+	if ("run" in command) {
+		await command.run.bind(command)(message, args);
+	} else {
+		await message.reply(
+			command.replies[Math.floor(Math.random() * command.replies.length)]
+		);
+	}
 });
 
 client.login(process.env.TOKEN);

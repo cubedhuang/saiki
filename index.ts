@@ -1,7 +1,9 @@
 import "dotenv/config";
 
 import { Client, Collection, Intents, Message, MessageEmbed } from "discord.js";
+import { inspect } from "node:util";
 
+import avatars from "./avatars.json";
 import coffeeJellyReplies from "./coffeeJellyReplies.json";
 
 {
@@ -29,9 +31,35 @@ const client = new Client({
 	}
 });
 
+let timeout: ReturnType<typeof setTimeout> | undefined;
+
+function nextHourTimeout(fn: (...args: unknown[]) => unknown) {
+	const nextHour = new Date().setHours(
+		// next hour calculated with +1min to current time for small buffer
+		new Date(Date.now() + 60 * 1000).getHours() + 1,
+		0,
+		0,
+		0
+	);
+	return setTimeout(async () => await fn(), nextHour - Date.now());
+}
+
+async function randomAvatar() {
+	if (timeout) clearTimeout(timeout);
+	timeout = nextHourTimeout(() => randomAvatar());
+
+	await client.user
+		?.setAvatar(avatars[Math.floor(Math.random() * avatars.length)])
+		.then(user => {
+			console.log(`Avatar changed to ${user.avatarURL()}`);
+		});
+}
+
 client.on("ready", client => {
 	console.log(`${client.user.tag} has logged in!`);
 	client.user.setActivity("saiki help");
+
+	timeout = nextHourTimeout(() => randomAvatar());
 });
 
 interface BaseCommand {
@@ -62,6 +90,37 @@ function toCommandCollection(commands: Command[]) {
 }
 
 const commands = toCommandCollection([
+	{
+		name: "eval",
+		aliases: ["ev"],
+		async run(message, args) {
+			if (!client.application?.owner?.id)
+				await client.application?.fetch();
+			if (client.application?.owner?.id !== message.author.id) return;
+
+			const code = args.join(" ");
+
+			const embed = new MessageEmbed()
+				.setTitle("Eval")
+				.setDescription(`\`\`\`js\n${code}\n\`\`\``)
+				.setColor("#11bd18");
+
+			try {
+				const result = await eval(code);
+				embed.addField(
+					"Result",
+					`\`\`\`js\n${inspect(result).replaceAll(
+						client.token!,
+						"CLIENT TOKEN"
+					)}\n\`\`\``
+				);
+				await message.reply({ embeds: [embed] });
+			} catch (e) {
+				embed.addField("Error", `\`\`\`js\n${inspect(e)}\n\`\`\``);
+				await message.reply({ embeds: [embed] });
+			}
+		}
+	},
 	{
 		name: "help",
 		aliases: ["please", "plz", "pls"],

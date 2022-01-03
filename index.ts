@@ -51,7 +51,7 @@ async function randomAvatar() {
 	await client.user
 		?.setAvatar(avatars[Math.floor(Math.random() * avatars.length)])
 		.then(user => {
-			console.log(`Avatar changed to ${user.avatarURL()}`);
+			console.log(`Avatar changed to ${user.avatarURL({ size: 4096 })}`);
 		});
 }
 
@@ -190,19 +190,35 @@ client.on("messageCreate", async message => {
 
 	if (!/^saiki\s/i.test(message.content)) return;
 
+	if (
+		message.channel.type !== "DM" &&
+		!message.channel.permissionsFor(client.user!)?.has("SEND_MESSAGES")
+	)
+		return;
+
+	if (
+		message.channel.type !== "DM" &&
+		!message.channel
+			.permissionsFor(client.user!)
+			?.has("READ_MESSAGE_HISTORY")
+	) {
+		await message.reply(
+			'I need the "Read Message History" permission to work in this channel!'
+		);
+		return;
+	}
+
 	const [cmd, ...args] = message.content.substring(5).trim().split(/\s+/g);
 
 	const command = commands.get(cmd);
 
 	if (!command) return;
 
-	if ("run" in command) {
-		await command.run.bind(command)(message, args);
-	} else {
+	if ("run" in command) await command.run.bind(command)(message, args);
+	else
 		await message.reply(
 			command.replies[Math.floor(Math.random() * command.replies.length)]
 		);
-	}
 });
 
 client.login(process.env.TOKEN);

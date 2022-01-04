@@ -8,8 +8,8 @@
 	"type": "module",
 	"scripts": {
 		"build": "tsc",
-		"start": "node --es-module-specifier-resolution=node build/index.js",
-		"dev": "tsc && node --es-module-specifier-resolution=node build/index.js"
+		"start": "node --es-module-specifier-resolution=node build/src/index.js",
+		"dev": "tsc && yarn start"
 	},
 	"devDependencies": {
 		"@types/node": "^16.11.12",

@@ -1,6 +1,6 @@
 import { Collection } from "discord.js";
-import { Lib } from "src/lib";
 
+import { Lib } from "../lib";
 import { RunCommand } from ".";
 
 function help(again = false) {

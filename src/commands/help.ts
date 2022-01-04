@@ -6,7 +6,7 @@ import { RunCommand } from ".";
 function help(again = false) {
 	return `
 ${Lib.pickRandom(Lib.yareYare)} I suppose I'll explain myself${
-		again ? "to you again." : ""
+		again ? " to you again." : ""
 	}.
 saiki coffee jelly : pictures
 You can ask me anything, but don't count on an answer.
@@ -17,7 +17,7 @@ function notHelp() {
 	return `
 ${Lib.pickRandom(
 	Lib.yareYare
-)} I'm not explaining that to you again for a while. Use the other message.
+)} I'm not explaining that again to you for a while. Use the other message.
 `.trim();
 }
 
@@ -30,7 +30,7 @@ export const helpCommand: RunCommand = {
 		if (!users.has(message.author.id)) {
 			users.set(
 				message.author.id,
-				Date.now() + Math.random() * 5_000 + 5_000
+				Date.now() + Math.random() * 5_000_000 + 5_000_000
 			);
 			await message.reply(help());
 			return;

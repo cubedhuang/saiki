@@ -1,7 +1,7 @@
 import { Collection } from "discord.js";
 
 import { Lib } from "../lib";
-import { RunCommand } from ".";
+import { Command } from ".";
 
 function help(again = false) {
 	return `
@@ -23,7 +23,7 @@ ${Lib.pickRandom(
 
 const users = new Collection<string, number>();
 
-export const helpCommand: RunCommand = {
+export const helpCommand: Command = {
 	name: "help",
 	aliases: ["commands"],
 	async run(message) {
@@ -43,7 +43,10 @@ export const helpCommand: RunCommand = {
 			return;
 		}
 
+		users.set(
+			message.author.id,
+			Date.now() + Math.random() * 5_000_000 + 5_000_000
+		);
 		await message.reply(help(true));
-		users.delete(message.author.id);
 	}
 };

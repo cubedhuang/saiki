@@ -1,9 +1,9 @@
 import { MessageEmbed } from "discord.js";
 import { inspect } from "node:util";
 
-import { RunCommand } from ".";
+import { Command } from ".";
 
-export const evalCommand: RunCommand = {
+export const evalCommand: Command = {
 	name: "eval",
 	aliases: ["ev"],
 	async run(message, args) {

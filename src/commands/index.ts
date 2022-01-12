@@ -2,24 +2,11 @@ import { Collection, Message, MessageEmbed } from "discord.js";
 
 import coffeeJellyReplies from "../../data/coffeeJellyReplies.json";
 import { Lib } from "../lib";
+import { Command } from "./Command";
 import { evalCommand } from "./eval";
 import { helpCommand } from "./help";
 
-interface BaseCommand {
-	name: string;
-	aliases?: string[];
-}
-
-export interface RepliesCommand extends BaseCommand {
-	replies: string[];
-}
-
-export interface RunCommand extends BaseCommand {
-	replies?: string[];
-	run(this: this, message: Message, args: string[]): unknown;
-}
-
-export type Command = RepliesCommand | RunCommand;
+export { Command } from "./Command";
 
 export const commands = ((commands: Command[]) => {
 	const cmds = new Collection<string, Command>();
@@ -71,7 +58,8 @@ export const commands = ((commands: Command[]) => {
 			"does",
 			"am",
 			"is",
-			"are"
+			"are",
+			"do"
 		],
 		replies: [
 			"*ignores you\\*",

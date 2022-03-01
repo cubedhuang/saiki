@@ -15,7 +15,7 @@ export async function handleWordle(message: Message) {
 	const word =
 		message.content[0].toUpperCase() +
 		message.content.slice(1).toLowerCase();
-	await message.reply(`${word} is a valid wordle guess.`);
+	await message.reply(`${word} is a valid Wordle guess.`);
 
 	return true;
 }

@@ -1,4 +1,4 @@
-import { Collection, Message, MessageEmbed } from "discord.js";
+import { Collection, MessageEmbed } from "discord.js";
 
 import coffeeJellyReplies from "../../data/coffeeJellyReplies.json";
 import { Lib } from "../lib";

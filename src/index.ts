@@ -3,7 +3,7 @@ import "dotenv/config";
 import { Client, Intents } from "discord.js";
 
 import avatars from "../data/avatars.json";
-import { commands } from "./commands";
+import { handleMessage } from "./handleMessage";
 import { Lib } from "./lib";
 
 {
@@ -62,37 +62,6 @@ client.on("ready", client => {
 	timeout = nextHourTimeout(() => randomAvatar());
 });
 
-client.on("messageCreate", async message => {
-	if (message.author.bot) return;
-
-	if (message.content.toLowerCase() === "saiki") {
-		await message.reply("...");
-		return;
-	}
-
-	if (!/^saiki\s/i.test(message.content)) return;
-
-	if (
-		message.channel.type !== "DM" &&
-		!message.channel
-			.permissionsFor(client.user!)
-			?.has(["SEND_MESSAGES", "READ_MESSAGE_HISTORY"])
-	)
-		return;
-
-	const [name, ...args] = message.content.substring(5).trim().split(/\s+/g);
-
-	// cut off chars after stuff like ' and - for words like what's
-	const command = commands.get(name.replace(/\W.*$/i, ""));
-
-	if (!command) return;
-
-	if ("run" in command) {
-		await command.run.bind(command)(message, args);
-		return;
-	}
-
-	await message.reply(Lib.pickRandom(command.replies));
-});
+client.on("messageCreate", handleMessage);
 
 client.login(process.env.TOKEN);

@@ -3,7 +3,7 @@ import type { Message } from "discord.js";
 import wordle from "../data/wordle.json";
 
 export async function handleWordle(message: Message) {
-	if (!message.content.match(/^[a-zA-Z]{5}$/)) return false;
+	if (!message.content.match(/^[a-zA-Z]{5}$/i)) return false;
 
 	if (
 		!wordle.answers.includes(message.content) &&

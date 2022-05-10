@@ -1,6 +1,6 @@
 import type { Message } from "discord.js";
 
-import wordle from "../data/wordle.json";
+import wordle from "../data/wordle.json" assert { type: "json" };
 
 export async function handleWordle(message: Message) {
 	if (!message.content.match(/^[a-zA-Z]{5}$/i)) return false;

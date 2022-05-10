@@ -2,7 +2,7 @@ import "dotenv/config";
 
 import { Client, Intents } from "discord.js";
 
-import avatars from "../data/avatars.json";
+import avatars from "../data/avatars.json" assert { type: "json" };
 import { handleMessage } from "./handleMessage";
 import { Lib } from "./lib";
 

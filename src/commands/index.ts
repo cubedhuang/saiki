@@ -59,7 +59,9 @@ export const commands = ((commands: Command[]) => {
 			"am",
 			"is",
 			"are",
-			"do"
+			"do",
+			"will",
+			"can"
 		],
 		replies: [
 			"*ignores you\\*",

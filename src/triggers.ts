@@ -17,5 +17,9 @@ export const triggers = ((triggers: Trigger[]) => {
 	{
 		names: ["offu", "oh wow"],
 		replies: ["Nuisance number 4. The worst of them all."]
+	},
+	{
+		names: ["815", "8:15", "8/15"],
+		replies: ["it is sans o clock"]
 	}
 ]);

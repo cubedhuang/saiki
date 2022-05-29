@@ -4,7 +4,6 @@ import { wordle } from "../data/wordle";
 
 class TrieNode {
 	children: Record<string, TrieNode> = {};
-	constructor(public word?: string) {}
 
 	add(word: string) {
 		if (word.length === 0) return;

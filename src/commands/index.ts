@@ -1,6 +1,6 @@
 import { Collection, MessageEmbed } from "discord.js";
 
-import coffeeJellyReplies from "../../data/coffeeJellyReplies.json" assert { type: "json" };
+import { coffeeJellyReplies } from "../../data/coffeeJellyReplies";
 import { Lib } from "../lib";
 import { Command } from "./Command";
 import { evalCommand } from "./eval";

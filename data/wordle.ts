@@ -1,5 +1,5 @@
-{
-	"answers": [
+export const wordle = {
+	answers: [
 		"cigar",
 		"rebut",
 		"sissy",
@@ -2316,7 +2316,7 @@
 		"rural",
 		"shave"
 	],
-	"dictionary": [
+	dictionary: [
 		"aahed",
 		"aalii",
 		"aargh",
@@ -12975,4 +12975,4 @@
 		"zymes",
 		"zymic"
 	]
-}
+};

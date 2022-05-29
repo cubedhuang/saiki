@@ -1,4 +1,4 @@
-[
+export const coffeeJellyReplies = [
 	"https://cdn.discordapp.com/attachments/926952683204644914/926952869620498432/0707a62ed12bfff1694fb311a05101e8.jpg",
 	"https://cdn.discordapp.com/attachments/926952683204644914/926952869905719306/ea9498b60dcac2b3637472340efc8507.jpg",
 	"https://cdn.discordapp.com/attachments/926952683204644914/926952870161547294/f3da9adb341afb63e97460eb0ac7b0fc.jpg",
@@ -44,4 +44,4 @@
 	"https://cdn.discordapp.com/attachments/926952683204644914/926952988621275207/6bd462831aea9e865df402728a10817a.jpg",
 	"https://cdn.discordapp.com/attachments/926952683204644914/926952988927475732/a217c329349cfda0ca1394873365483d.jpg",
 	"https://cdn.discordapp.com/attachments/926952683204644914/926952989334315058/8d14d81fc23c8840390a7604853bec3a.jpg"
-]
+];

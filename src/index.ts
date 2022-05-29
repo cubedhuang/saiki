@@ -64,4 +64,4 @@ client.on("ready", client => {
 
 client.on("messageCreate", handleMessage);
 
-client.login(process.env.TOKEN);
+await client.login(process.env.TOKEN);

@@ -1,10 +1,14 @@
-FROM node:16
+# syntax=docker/dockerfile:1
+
+FROM node:alpine
 
 WORKDIR /app
-COPY package.json ./
-COPY yarn.lock ./
 
-RUN yarn
-COPY . .
+COPY --link package.json .
+COPY --link yarn.lock .
+RUN --mount=type=cache,target=/usr/local/share/.cache/yarn/v6 \
+    yarn install --frozen-lockfile
 
-CMD [ "yarn", "start" ]
+COPY --link . .
+
+ENTRYPOINT yarn start

@@ -1,7 +1,7 @@
 import { Collection } from "discord.js";
 
-import { Lib } from "../lib";
-import { Command } from ".";
+import { Lib } from "../lib.js";
+import { Command } from "./index.js";
 
 function help(again = false) {
 	return `

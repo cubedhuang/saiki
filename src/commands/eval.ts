@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js";
 import { inspect } from "node:util";
 
-import { Command } from ".";
+import { Command } from "./index.js";
 
 export const evalCommand: Command = {
 	name: "eval",

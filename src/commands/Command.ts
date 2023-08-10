@@ -11,7 +11,7 @@ interface RepliesCommand extends BaseCommand {
 
 interface RunCommand extends BaseCommand {
 	replies?: string[];
-	run(this: this, message: Message, args: string[]): unknown;
+	run(this: this, message: Message, args: string[], rawArgs: string): unknown;
 }
 
 export type Command = RepliesCommand | RunCommand;

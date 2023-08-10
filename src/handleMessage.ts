@@ -1,9 +1,9 @@
 import { Message } from "discord.js";
 
-import { Command, commands } from "./commands";
-import { handleWordle } from "./handleWordle";
-import { Lib } from "./lib";
-import { triggers } from "./triggers";
+import { Command, commands } from "./commands/index.js";
+import { handleWordle } from "./handleWordle.js";
+import { Lib } from "./lib.js";
+import { triggers } from "./triggers.js";
 
 export async function handleMessage(message: Message) {
 	if (message.author.bot) return;
@@ -26,9 +26,9 @@ export async function handleMessage(message: Message) {
 	const commandData = getCommandData(message);
 
 	if (commandData) {
-		const [command, args] = commandData;
+		const [command, args, rawArgs] = commandData;
 		if ("run" in command) {
-			await command.run(message, args);
+			await command.run(message, args, rawArgs);
 		} else {
 			const reply = Lib.pickRandom(command.replies);
 			await message.reply(reply);
@@ -47,15 +47,20 @@ export async function handleMessage(message: Message) {
 	await message.reply(reply);
 }
 
-function getCommandData(message: Message): [Command, string[]] | null {
+function getCommandData(message: Message): [Command, string[], string] | null {
 	if (!/^saiki\s/i.test(message.content)) return null;
 
 	const [name, ...args] = message.content.substring(5).trim().split(/\s+/g);
+	const rawArgs = message.content
+		.substring(5)
+		.trim()
+		.substring(name.length)
+		.trim();
 
 	// cut off chars after stuff like ' and - for words like what's
 	const command = commands.get(name.replace(/\W.*$/i, ""));
 
 	if (!command) return null;
 
-	return [command, args ?? []];
+	return [command, args ?? [], rawArgs];
 }

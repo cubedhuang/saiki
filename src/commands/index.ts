@@ -1,12 +1,12 @@
 import { Collection, MessageEmbed } from "discord.js";
 
-import { coffeeJellyReplies } from "../../data/coffeeJellyReplies";
-import { Lib } from "../lib";
-import { Command } from "./Command";
-import { evalCommand } from "./eval";
-import { helpCommand } from "./help";
+import { coffeeJellyReplies } from "../data/coffeeJellyReplies.js";
+import { Lib } from "../lib.js";
+import { Command } from "./Command.js";
+import { evalCommand } from "./eval.js";
+import { helpCommand } from "./help.js";
 
-export { Command } from "./Command";
+export { Command } from "./Command.js";
 
 export const commands = ((commands: Command[]) => {
 	const cmds = new Collection<string, Command>();
@@ -80,5 +80,13 @@ export const commands = ((commands: Command[]) => {
 			"Go complain to the author.",
 			...Lib.yareYare
 		]
+	},
+	{
+		name: "say",
+		aliases: ["speak", "talk"],
+		async run(message, _, raw) {
+			await message.delete();
+			await message.channel.send(raw);
+		}
 	}
 ]);

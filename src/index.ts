@@ -2,9 +2,9 @@ import "dotenv/config";
 
 import { Client, Intents } from "discord.js";
 
-import { avatars } from "../data/avatars";
-import { handleMessage } from "./handleMessage";
-import { Lib } from "./lib";
+import { avatars } from "./data/avatars.js";
+import { handleMessage } from "./handleMessage.js";
+import { Lib } from "./lib.js";
 
 {
 	const time = (color: number) =>

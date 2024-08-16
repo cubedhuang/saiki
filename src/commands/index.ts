@@ -1,4 +1,6 @@
 import { Collection, MessageEmbed } from "discord.js";
+import fetch from "node-fetch";
+import { URL } from "node:url";
 
 import { coffeeJellyReplies } from "../data/coffeeJellyReplies.js";
 import { Lib } from "../lib.js";
@@ -87,6 +89,21 @@ export const commands = ((commands: Command[]) => {
 		async run(message, _, raw) {
 			await message.delete();
 			await message.channel.send(raw);
+		}
+	},
+	{
+		name: "solve",
+		async run(message, _, raw) {
+			const url = new URL("http://api.wolframalpha.com/v1/result");
+
+			url.searchParams.append("appid", process.env.WOLFRAM_ID!);
+			url.searchParams.append("i", raw);
+			url.searchParams.append("units", "metric");
+			const response = await fetch(url.toString()).then(res =>
+				res.text()
+			);
+
+			await message.reply(`Why are you asking me this? ${response}.`);
 		}
 	}
 ]);

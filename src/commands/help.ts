@@ -9,6 +9,7 @@ ${Lib.pickRandom(Lib.yareYare)} I suppose I'll explain myself${
 		again ? " to you again." : ""
 	}.
 saiki coffee jelly : pictures
+saiki solve : why are you asking me math questions?
 You can ask me anything, but don't count on an answer. Also if you send a valid Wordle guess, I'll tell you :).
 `.trim();
 }

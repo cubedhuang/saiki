@@ -93,7 +93,13 @@ export const commands = ((commands: Command[]) => {
 	},
 	{
 		name: "solve",
+		aliases: ["find", "calculate"],
 		async run(message, _, raw) {
+			if (!raw.length) {
+				await message.reply("Solve what?");
+				return;
+			}
+
 			const url = new URL("http://api.wolframalpha.com/v1/result");
 
 			url.searchParams.append("appid", process.env.WOLFRAM_ID!);
@@ -103,7 +109,15 @@ export const commands = ((commands: Command[]) => {
 				res.text()
 			);
 
-			await message.reply(`Why are you asking me this? ${response}.`);
+			if (response === "Wolfram|Alpha did not understand your input") {
+				await message.reply("What are you talking about?");
+			} else if (response === "No short answer available") {
+				await message.reply(
+					"I could solve this, but it would take too long."
+				);
+			} else {
+				await message.reply(`Why are you asking me this? ${response}.`);
+			}
 		}
 	}
 ]);

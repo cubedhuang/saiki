@@ -38,26 +38,7 @@ export async function handleWordle(message: Message) {
 
 	if (!isValidWords) return false;
 
-	const unique = [...new Set(words)];
-
-	if (unique.length === 1) {
-		await message.reply(
-			`${capitalize(unique[0])} is a valid Wordle guess.`
-		);
-	} else if (unique.length === 2) {
-		await message.reply(
-			`${capitalize(unique[0])} and ${capitalize(
-				unique[1]
-			)} are both valid Wordle guesses.`
-		);
-	} else {
-		const list = unique.slice(0, -1).map(capitalize).join(", ");
-		await message.reply(
-			`${list}, and ${capitalize(
-				unique[unique.length - 1]
-			)} are all valid Wordle guesses.`
-		);
-	}
+	await message.react("1025939109329514546");
 
 	return true;
 }

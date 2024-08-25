@@ -1,23 +1,11 @@
 import "dotenv/config";
 
 import { Client, Intents } from "discord.js";
+import { URL } from "node:url";
 
-import { avatars } from "./data/avatars.js";
 import { handleMessage } from "./handleMessage.js";
-import { Lib } from "./lib.js";
 
-{
-	const time = (color: number) =>
-		`\x1b[${color}m[${new Date().toISOString()}]\x1b[0m`;
-	const make =
-		(fn: (...args: unknown[]) => void, color: number) =>
-		(message: unknown, ...args: unknown[]) =>
-			fn(`${time(color)} ${message}`, ...args);
-
-	console.log = make(console.log, 32);
-	console.warn = make(console.warn, 33);
-	console.error = make(console.error, 31);
-}
+const AVATAR_COUNT = 11;
 
 ["uncaughtException", "unhandledRejection"].forEach(event =>
 	process.on(event, e => {
@@ -50,7 +38,11 @@ async function randomAvatar() {
 	if (timeout) clearTimeout(timeout);
 	timeout = nextHourTimeout(() => randomAvatar());
 
-	await client.user?.setAvatar(Lib.pickRandom(avatars)).then(user => {
+	const i = Math.floor(Math.random() * AVATAR_COUNT);
+
+	const path = new URL(`../src/img/${i}.jpg`, import.meta.url).pathname;
+
+	await client.user?.setAvatar(path).then(user => {
 		console.log(`Avatar changed to ${user.avatarURL({ size: 4096 })}`);
 	});
 }
